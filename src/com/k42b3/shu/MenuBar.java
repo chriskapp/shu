@@ -78,7 +78,7 @@ public class MenuBar extends JMenuBar
 			{
 				String msg = "";
 				msg+= "Shu (version: " + Shu.VERSION + ")\n";
-				msg+= "Developer: Christoph <k42b3> Kappestein\n";
+				msg+= "Developer: Christoph Kappestein\n";
 				msg+= "Website: http://shu.k42b3.com";
 
 				JOptionPane.showMessageDialog(null, msg, "About", JOptionPane.INFORMATION_MESSAGE);
