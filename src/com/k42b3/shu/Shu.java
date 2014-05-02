@@ -4,7 +4,7 @@
  * function definitions. Based on the definition it can build various charts
  * and tables to given an overview of the project
  * 
- * Copyright (c) 2013 Christoph Kappestein <k42b3.x@gmail.com>
+ * Copyright (c) 2013-2014 Christoph Kappestein <k42b3.x@gmail.com>
  * 
  * This file is part of shu. shu is free software: you can 
  * redistribute it and/or modify it under the terms of the GNU 
@@ -67,7 +67,7 @@ import com.k42b3.shu.module.TokenChart;
  */
 public class Shu extends JFrame
 {
-	public static final String VERSION = "0.0.2 beta";
+	public static final String VERSION = "0.0.3 beta";
 
 	protected DefaultListModel<ModuleAbstract> navigationModel;
 	protected JList<ModuleAbstract> navigation;

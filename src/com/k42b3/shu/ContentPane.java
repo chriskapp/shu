@@ -4,7 +4,7 @@
  * function definitions. Based on the definition it can build various charts
  * and tables to given an overview of the project
  * 
- * Copyright (c) 2013 Christoph Kappestein <k42b3.x@gmail.com>
+ * Copyright (c) 2013-2014 Christoph Kappestein <k42b3.x@gmail.com>
  * 
  * This file is part of shu. shu is free software: you can 
  * redistribute it and/or modify it under the terms of the GNU 
