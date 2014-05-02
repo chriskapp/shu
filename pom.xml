@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>shu</groupId>
   <artifactId>shu</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.3</version>
   <name>Shu</name>
   <url>http://shu.k42b3.com</url>
   <properties>
