@@ -77,7 +77,8 @@ public class MenuBar extends JMenuBar
 			public void actionPerformed(ActionEvent e) 
 			{
 				String msg = "";
-				msg+= "Shu (version: " + Shu.VERSION + ")\n";
+				msg+= "Shu" + "\n";
+				msg+= "Version: " + Shu.VERSION + "\n";
 				msg+= "Developer: Christoph Kappestein\n";
 				msg+= "Website: http://shu.k42b3.com";
 

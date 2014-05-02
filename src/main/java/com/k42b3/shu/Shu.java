@@ -79,7 +79,7 @@ public class Shu extends JFrame
 	public Shu()
 	{
 		// settings
-		this.setTitle("Shu (version: " + VERSION + ")");
+		this.setTitle("Shu (Version: " + VERSION + ")");
 		this.setLocation(100, 100);
 		this.setSize(600, 500);
 		this.setMinimumSize(this.getSize());

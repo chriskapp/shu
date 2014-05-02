@@ -30,7 +30,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.k42b3.shu.Scanner;
 import com.k42b3.shu.definition.Definition;
 
 /**
