@@ -56,6 +56,7 @@ public class ScannerTest
 			if(files.get(i).getFile().getName().endsWith("class.php"))
 			{
 				file = files.get(i);
+				break;
 			}
 		}
 
@@ -105,8 +106,14 @@ public class ScannerTest
 		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.definition.Class) defs.get(36)).getName());
 		
 		assertEquals("Foo\\Bar\\Target", ((com.k42b3.shu.definition.Class) defs.get(37)).getName());
+
+		assertEquals("Foo\\Bar\\Blub", ((com.k42b3.shu.definition.Class) defs.get(38)).getName());
+		assertEquals("Foo\\Bar\\Blub", ((com.k42b3.shu.definition.Method) defs.get(39)).getParent().getName());
+		assertEquals("foo", ((com.k42b3.shu.definition.Method) defs.get(39)).getName());
+		assertEquals("bar1", ((com.k42b3.shu.definition.Function) defs.get(40)).getName());
 	}
 	
+	/*
 	@Test
 	public void testScanFinal()
 	{
@@ -130,5 +137,6 @@ public class ScannerTest
 		
 		assertEquals("Doctrine\\Common\\Annotations\\Annotation\\Target", ((com.k42b3.shu.definition.Class) defs.get(0)).getName());
 	}
+	*/
 }
 

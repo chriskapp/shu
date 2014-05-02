@@ -242,6 +242,9 @@ public class Scanner
 					c.setLine(tokens[i - 2].getLine());
 					c.setName(interfaceName);
 
+					mainClass = c;
+					classLevel = level;
+
 					fileDefinition.addDefinition(c);
 
 					index.addClass(c);
@@ -395,12 +398,7 @@ public class Scanner
 						hasNext = false;
 						StringBuilder className = new StringBuilder();
 
-						if(tokens[i].getType() == Token.T_NS_SEPARATOR && tokens[i + 1].getType() == Token.T_STRING)
-						{
-							i++;
-							className.append(tokens[i].getValue());
-						}
-						else if(tokens[i].getType() == Token.T_STRING)
+						if(tokens[i].getType() == Token.T_STRING)
 						{
 							if(uses.containsKey(tokens[i].getValue()))
 							{
@@ -417,6 +415,12 @@ public class Scanner
 								className.append(tokens[i].getValue());
 							}
 						}
+						else if(tokens[i].getType() == Token.T_NS_SEPARATOR)
+						{
+							i++;
+							
+							className.append(tokens[i].getValue());
+						}
 
 						while(tokens[i + 1].getType() == Token.T_NS_SEPARATOR && tokens[i + 2].getType() == Token.T_STRING)
 						{
@@ -424,7 +428,6 @@ public class Scanner
 							className.append(tokens[i + 2].getValue());
 
 							i = i + 2;
-							break;
 						}
 
 						ImplementReference r = new ImplementReference();
@@ -451,13 +454,20 @@ public class Scanner
 							hasNext = true;
 							i++;
 						}
+						else
+						{
+							hasNext = false;
+						}
 
 						if(tokens[i + 1].getType() == Token.T_WHITESPACE)
 						{
 							i++;
 						}
-
-						i++;
+						
+						if(hasNext)
+						{
+							i++;
+						}
 					}
 					while(hasNext);
 				}
@@ -712,8 +722,9 @@ public class Scanner
 					// reset class level if in class 
 					if(mainClass != null && classLevel != -1 && classLevel == level)
 					{
-						mainClass = null;
+						level = 0;
 						classLevel = -1;
+						mainClass = null;
 					}
 				}
 			}

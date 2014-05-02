@@ -75,3 +75,15 @@ interface Foo
 final class Target
 {
 }
+
+class Blub
+{
+	public function foo()
+	{
+	}
+}
+
+function bar1()
+{
+}
+

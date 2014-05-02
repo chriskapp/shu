@@ -196,6 +196,6 @@ public class Token
 	
 	public String toString()
 	{
-		return "" + this.getType();
+		return this.getLine() + ": " + this.getType() + " [" + this.getValue() + "] ";
 	}
 }
