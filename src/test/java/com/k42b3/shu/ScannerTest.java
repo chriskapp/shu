@@ -20,7 +20,7 @@
  * along with shu. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.k42b3.shu.test;
+package com.k42b3.shu;
 
 import static org.junit.Assert.assertEquals;
 
@@ -46,7 +46,7 @@ public class ScannerTest
 	public void testScan()
 	{
 		Scanner scanner = new Scanner();
-		scanner.scan(new File("test"));
+		scanner.scan(new File(getClass().getResource("/test_files").getFile()));
 
 		ArrayList<com.k42b3.shu.definition.File> files = scanner.getIndex().getFiles();
 		com.k42b3.shu.definition.File file = null;
