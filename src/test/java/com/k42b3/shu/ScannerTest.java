@@ -113,12 +113,11 @@ public class ScannerTest
 		assertEquals("bar1", ((com.k42b3.shu.definition.Function) defs.get(40)).getName());
 	}
 	
-	/*
 	@Test
 	public void testScanFinal()
 	{
 		Scanner scanner = new Scanner();
-		scanner.scan(new File("test"));
+		scanner.scan(new File(getClass().getResource("/test_files").getFile()));
 
 		ArrayList<com.k42b3.shu.definition.File> files = scanner.getIndex().getFiles();
 		com.k42b3.shu.definition.File file = null;
@@ -137,6 +136,5 @@ public class ScannerTest
 		
 		assertEquals("Doctrine\\Common\\Annotations\\Annotation\\Target", ((com.k42b3.shu.definition.Class) defs.get(0)).getName());
 	}
-	*/
 }
 
