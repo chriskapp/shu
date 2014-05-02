@@ -24,6 +24,7 @@ package com.k42b3.shu;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -98,6 +100,12 @@ public class Scanner
 	
 	protected void parse(File dir)
 	{
+		if(!this.isPhpProcessorAvailable())
+		{
+			JOptionPane.showMessageDialog(null, "No PHP processor was found", "Information", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+
 		File[] files = dir.listFiles();
 
 		for(int i = 0; i < files.length; i++)
@@ -798,6 +806,32 @@ public class Scanner
 		}
 
 		return null;
+	}
+
+	protected boolean isPhpProcessorAvailable()
+	{
+		try
+		{
+			StringBuilder response = new StringBuilder();
+			Process p = Runtime.getRuntime().exec("php -v");
+			BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String line = input.readLine();
+			input.close();
+			
+			// line contains the version string we could check for the "PHP" 
+			// string but maybe this works also with hhvm
+			if(line.length() == 0)
+			{
+				return false;
+			}
+
+			return true;
+		}
+		catch (IOException e)
+		{
+		}
+
+		return false;
 	}
 
 	public interface ScanActionListener
