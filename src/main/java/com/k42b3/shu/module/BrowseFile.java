@@ -127,6 +127,7 @@ public class BrowseFile extends ModuleAbstract
 			}
 
 			this.text.setText(text.toString());
+			this.text.setCaretPosition(0);
 		}
 		catch(IOException e)
 		{

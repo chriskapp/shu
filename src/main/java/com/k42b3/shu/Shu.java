@@ -51,12 +51,12 @@ import com.k42b3.shu.module.BrowseFile;
 import com.k42b3.shu.module.ClassGraph;
 import com.k42b3.shu.module.ComplexityChart;
 import com.k42b3.shu.module.Definition;
-import com.k42b3.shu.module.GetPostChart;
-import com.k42b3.shu.module.InheritanceChart;
+import com.k42b3.shu.module.DefinitionExport;
 import com.k42b3.shu.module.ModuleAbstract;
 import com.k42b3.shu.module.ReferenceChart;
 import com.k42b3.shu.module.Statistic;
 import com.k42b3.shu.module.TokenChart;
+import com.k42b3.shu.module.VariableSearch;
 
 /**
  * Shu
@@ -95,11 +95,11 @@ public class Shu extends JFrame
 		navigationModel.addElement(new BrowseFile());
 		navigationModel.addElement(new ReferenceChart());
 		navigationModel.addElement(new ComplexityChart());
-		navigationModel.addElement(new InheritanceChart());
-		navigationModel.addElement(new GetPostChart());
 		navigationModel.addElement(new TokenChart());
-		navigationModel.addElement(new Statistic());
+		navigationModel.addElement(new DefinitionExport());
+		//navigationModel.addElement(new VariableSearch());
 		navigationModel.addElement(new ClassGraph());
+		navigationModel.addElement(new Statistic());
 
 		navigation = new JList<ModuleAbstract>(navigationModel);
 		navigation.setPreferredSize(new Dimension(160, 100));
@@ -128,7 +128,7 @@ public class Shu extends JFrame
 
 					if(!found)
 					{
-						module.onLoad(scanner.getMetrics(), scanner.getIndex());
+						module.onLoad(scanner);
 
 						content.addTab(module.getTitle(), module);
 					}

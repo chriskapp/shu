@@ -39,6 +39,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.k42b3.shu.Index;
 import com.k42b3.shu.Metric;
+import com.k42b3.shu.Scanner;
 
 /**
  * ModuleAbstract
@@ -49,6 +50,8 @@ import com.k42b3.shu.Metric;
  */
 abstract public class ModuleAbstract extends JPanel
 {
+	protected Scanner scanner;
+
 	public ModuleAbstract()
 	{
 		super(new BorderLayout());
@@ -59,8 +62,10 @@ abstract public class ModuleAbstract extends JPanel
 		return getTitle();
 	}
 
-	public void onLoad(Metric metric, Index index)
+	public void onLoad(Scanner scanner)
 	{
+		this.scanner = scanner;
+
 		JLabel label = new JLabel("Loading ...");
 		label.setFont(new Font(label.getFont().getName(), Font.BOLD, 14));
 		label.setForeground(Color.GRAY);
@@ -71,7 +76,7 @@ abstract public class ModuleAbstract extends JPanel
 
 		this.add(panel, BorderLayout.CENTER);
 
-		ModuleWorker worker = new ModuleWorker(metric, index);
+		ModuleWorker worker = new ModuleWorker(scanner.getMetrics(), scanner.getIndex());
 		worker.execute();
 	}
 
@@ -130,6 +135,8 @@ abstract public class ModuleAbstract extends JPanel
         		panel.add(new JLabel("<html>" + lastException.getMessage() + "<br /><pre>" + sw.toString() + "</pre></html>"));
 
         		add(new JScrollPane(panel), BorderLayout.CENTER);
+        		
+        		lastException.printStackTrace();
         	}
 
         	validate();

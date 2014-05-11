@@ -33,6 +33,7 @@ public class Method extends Definition
 {
 	protected String name;
 	protected Class parent;
+	protected Parameters parameters;
 	
 	public String getName()
 	{
@@ -52,5 +53,15 @@ public class Method extends Definition
 	public void setParent(Class parent)
 	{
 		this.parent = parent;
+	}
+
+	public Parameters getParameters()
+	{
+		return parameters;
+	}
+
+	public void setParameters(Parameters parameters)
+	{
+		this.parameters = parameters;
 	}
 }

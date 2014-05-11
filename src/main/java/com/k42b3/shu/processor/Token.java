@@ -20,7 +20,7 @@
  * along with shu. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.k42b3.shu.token;
+package com.k42b3.shu.processor;
 
 /**
  * Token

@@ -31,7 +31,6 @@ import com.k42b3.shu.definition.Function;
 import com.k42b3.shu.definition.Method;
 import com.k42b3.shu.reference.ClassReference;
 import com.k42b3.shu.reference.ExtendReference;
-import com.k42b3.shu.reference.Reference;
 
 /**
  * Index
@@ -119,29 +118,6 @@ public class Index
 		return null;
 	}
 
-	public int getInheritanceDepthByClass(com.k42b3.shu.definition.Class c)
-	{
-		ArrayList<com.k42b3.shu.definition.Class> classes = new ArrayList<com.k42b3.shu.definition.Class>();
-		com.k42b3.shu.definition.Class parent = c;
-		int depth = 0;
-
-		parent = findParentClass(parent);
-		while(parent != null)
-		{
-			if(!classes.contains(parent))
-			{
-				parent = findParentClass(parent);
-				depth++;
-			}
-			else
-			{
-				parent = null;
-			}
-		}
-
-		return depth;
-	}
-
 	public ArrayList<ClassReference> findReferencesByClass(com.k42b3.shu.definition.Class c)
 	{
 		ArrayList<ClassReference> refs = new ArrayList<ClassReference>();
@@ -180,29 +156,6 @@ public class Index
 		}
 		
 		return methods;
-	}
-	
-	public int getReferenceCountByFile(File file, Reference type)
-	{
-		int count = 0;
-
-		for(int i = 0; i < this.files.size(); i++)
-		{
-			if(this.files.get(i).equals(file))
-			{
-				List<Definition> definitions = this.files.get(i).getDefinitions();
-
-				for(int j = 0; j < definitions.size(); j++)
-				{
-					if(definitions.get(j).getClass().isInstance(type))
-					{
-						count++;
-					}
-				}
-			}
-		}
-
-		return count;
 	}
 
 	public void addFunction(Function f)

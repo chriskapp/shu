@@ -32,6 +32,7 @@ package com.k42b3.shu.definition;
 public class Function extends Definition
 {
 	protected String name;
+	protected Parameters parameters;
 
 	public String getName()
 	{
@@ -41,5 +42,15 @@ public class Function extends Definition
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public Parameters getParameters()
+	{
+		return parameters;
+	}
+
+	public void setParameters(Parameters parameters)
+	{
+		this.parameters = parameters;
 	}
 }

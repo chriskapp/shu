@@ -25,7 +25,6 @@ package com.k42b3.shu;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -45,95 +44,133 @@ public class ScannerTest
 	public void testScan()
 	{
 		Scanner scanner = new Scanner();
-		scanner.scan(new File(getClass().getResource("/test_files").getFile()));
+		scanner.scan(new File(getClass().getResource("/test_files/class.php").getFile()));
 
-		ArrayList<com.k42b3.shu.definition.File> files = scanner.getIndex().getFiles();
-		com.k42b3.shu.definition.File file = null;
-
-		for(int i = 0; i < files.size(); i++)
-		{
-			if(files.get(i).getFile().getName().endsWith("class.php"))
-			{
-				file = files.get(i);
-				break;
-			}
-		}
-
-		assertEquals(true, file instanceof com.k42b3.shu.definition.File);
-
+		com.k42b3.shu.definition.File file = scanner.getIndex().getFiles().get(0);
 		List<Definition> defs = file.getDefinitions();
 		
 		assertEquals("Foo\\Bar\\Test", ((com.k42b3.shu.definition.Class) defs.get(0)).getName());
 		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.ExtendReference) defs.get(1)).getClassName());
 		assertEquals("Foo\\Bar\\Bar", ((com.k42b3.shu.reference.ImplementReference) defs.get(2)).getClassName());
 		assertEquals("__construct", ((com.k42b3.shu.definition.Method) defs.get(3)).getName());
-		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.TypeHintReference) defs.get(4)).getClassName());
-		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.TypeHintReference) defs.get(5)).getClassName());
-		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.TypeHintReference) defs.get(6)).getClassName());
-		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.StaticReference) defs.get(7)).getClassName());
-		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.StaticReference) defs.get(8)).getClassName());
-		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.StaticReference) defs.get(9)).getClassName());
-		assertEquals("Blub\\Bla", ((com.k42b3.shu.reference.StaticReference) defs.get(10)).getClassName());
-		assertEquals("Blub\\Foo", ((com.k42b3.shu.reference.StaticReference) defs.get(11)).getClassName());
-		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.NewReference) defs.get(12)).getClassName());
-		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.NewReference) defs.get(13)).getClassName());
-		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.NewReference) defs.get(14)).getClassName());
-		assertEquals("Blub\\Bla", ((com.k42b3.shu.reference.NewReference) defs.get(15)).getClassName());
-		assertEquals("Blub\\Foo", ((com.k42b3.shu.reference.NewReference) defs.get(16)).getClassName());
-		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.TypeHintReference) defs.get(17)).getClassName());
-		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.TypeHintReference) defs.get(18)).getClassName());
-		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.TypeHintReference) defs.get(19)).getClassName());
-		assertEquals("Blub\\Bla", ((com.k42b3.shu.reference.TypeHintReference) defs.get(20)).getClassName());
-		assertEquals("Blub\\Foo", ((com.k42b3.shu.reference.TypeHintReference) defs.get(21)).getClassName());
-		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.InstanceofReference) defs.get(22)).getClassName());
-		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.InstanceofReference) defs.get(23)).getClassName());
+		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.StaticReference) defs.get(4)).getClassName());
+		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.StaticReference) defs.get(5)).getClassName());
+		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.StaticReference) defs.get(6)).getClassName());
+		assertEquals("Blub\\Bla", ((com.k42b3.shu.reference.StaticReference) defs.get(7)).getClassName());
+		assertEquals("Blub\\Foo", ((com.k42b3.shu.reference.StaticReference) defs.get(8)).getClassName());
+		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.NewReference) defs.get(9)).getClassName());
+		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.NewReference) defs.get(10)).getClassName());
+		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.NewReference) defs.get(11)).getClassName());
+		assertEquals("Blub\\Bla", ((com.k42b3.shu.reference.NewReference) defs.get(12)).getClassName());
+		assertEquals("Blub\\Foo", ((com.k42b3.shu.reference.NewReference) defs.get(13)).getClassName());
+		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.TypeHintReference) defs.get(14)).getClassName());
+		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.TypeHintReference) defs.get(15)).getClassName());
+		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.TypeHintReference) defs.get(16)).getClassName());
+		assertEquals("Blub\\Bla", ((com.k42b3.shu.reference.TypeHintReference) defs.get(17)).getClassName());
+		assertEquals("Blub\\Foo", ((com.k42b3.shu.reference.TypeHintReference) defs.get(18)).getClassName());
+		assertEquals("$x", ((com.k42b3.shu.reference.VariableReference) defs.get(19)).getName());
+		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.InstanceofReference) defs.get(20)).getClassName());
+		assertEquals("$x", ((com.k42b3.shu.reference.VariableReference) defs.get(21)).getName());
+		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.InstanceofReference) defs.get(22)).getClassName());
+		assertEquals("$x", ((com.k42b3.shu.reference.VariableReference) defs.get(23)).getName());
 		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.InstanceofReference) defs.get(24)).getClassName());
-		assertEquals("Blub\\Bla", ((com.k42b3.shu.reference.InstanceofReference) defs.get(25)).getClassName());
-		assertEquals("Blub\\Foo", ((com.k42b3.shu.reference.InstanceofReference) defs.get(26)).getClassName());
+		assertEquals("$x", ((com.k42b3.shu.reference.VariableReference) defs.get(25)).getName());
+		assertEquals("Blub\\Bla", ((com.k42b3.shu.reference.InstanceofReference) defs.get(26)).getClassName());
+		assertEquals("$x", ((com.k42b3.shu.reference.VariableReference) defs.get(27)).getName());
+		assertEquals("Blub\\Foo", ((com.k42b3.shu.reference.InstanceofReference) defs.get(28)).getClassName());
 
-		assertEquals("Foo\\Bar\\Bar", ((com.k42b3.shu.definition.Class) defs.get(27)).getName());
-		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.ExtendReference) defs.get(28)).getClassName());
-		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.ImplementReference) defs.get(29)).getClassName());
-		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.ImplementReference) defs.get(30)).getClassName());
-		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.ImplementReference) defs.get(31)).getClassName());
-		assertEquals("Blub\\Bla", ((com.k42b3.shu.reference.ImplementReference) defs.get(32)).getClassName());
-		assertEquals("Blub\\Foo", ((com.k42b3.shu.reference.ImplementReference) defs.get(33)).getClassName());
-
-		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.definition.Class) defs.get(34)).getName());
-		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.ExtendReference) defs.get(35)).getClassName());
+		assertEquals("Foo\\Bar\\Bar", ((com.k42b3.shu.definition.Class) defs.get(29)).getName());
+		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.ExtendReference) defs.get(30)).getClassName());
+		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.reference.ImplementReference) defs.get(31)).getClassName());
+		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.ImplementReference) defs.get(32)).getClassName());
+		assertEquals("Bar\\Foo", ((com.k42b3.shu.reference.ImplementReference) defs.get(33)).getClassName());
+		assertEquals("Blub\\Bla", ((com.k42b3.shu.reference.ImplementReference) defs.get(34)).getClassName());
+		assertEquals("Blub\\Foo", ((com.k42b3.shu.reference.ImplementReference) defs.get(35)).getClassName());
 
 		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.definition.Class) defs.get(36)).getName());
-		
-		assertEquals("Foo\\Bar\\Target", ((com.k42b3.shu.definition.Class) defs.get(37)).getName());
+		assertEquals("Foo\\Bar\\Bar\\Foo", ((com.k42b3.shu.reference.ExtendReference) defs.get(37)).getClassName());
 
-		assertEquals("Foo\\Bar\\Blub", ((com.k42b3.shu.definition.Class) defs.get(38)).getName());
-		assertEquals("Foo\\Bar\\Blub", ((com.k42b3.shu.definition.Method) defs.get(39)).getParent().getName());
-		assertEquals("foo", ((com.k42b3.shu.definition.Method) defs.get(39)).getName());
-		assertEquals("bar1", ((com.k42b3.shu.definition.Function) defs.get(40)).getName());
+		assertEquals("Foo\\Bar\\Foo", ((com.k42b3.shu.definition.Class) defs.get(38)).getName());
+		
+		assertEquals("Foo\\Bar\\Target", ((com.k42b3.shu.definition.Class) defs.get(39)).getName());
+
+		assertEquals("Foo\\Bar\\Blub", ((com.k42b3.shu.definition.Class) defs.get(40)).getName());
+		assertEquals("Foo\\Bar\\Blub", ((com.k42b3.shu.definition.Method) defs.get(41)).getParent().getName());
+		assertEquals("foo", ((com.k42b3.shu.definition.Method) defs.get(41)).getName());
+		assertEquals("bar1", ((com.k42b3.shu.definition.Function) defs.get(42)).getName());
 	}
 	
 	@Test
 	public void testScanFinal()
 	{
 		Scanner scanner = new Scanner();
-		scanner.scan(new File(getClass().getResource("/test_files").getFile()));
+		scanner.scan(new File(getClass().getResource("/test_files/class-final.php").getFile()));
 
-		ArrayList<com.k42b3.shu.definition.File> files = scanner.getIndex().getFiles();
-		com.k42b3.shu.definition.File file = null;
-
-		for(int i = 0; i < files.size(); i++)
-		{
-			if(files.get(i).getFile().getName().endsWith("class-final.php"))
-			{
-				file = files.get(i);
-			}
-		}
-
-		assertEquals(true, file instanceof com.k42b3.shu.definition.File);
-		
+		com.k42b3.shu.definition.File file = scanner.getIndex().getFiles().get(0);
 		List<Definition> defs = file.getDefinitions();
 		
 		assertEquals("Doctrine\\Common\\Annotations\\Annotation\\Target", ((com.k42b3.shu.definition.Class) defs.get(0)).getName());
+	}
+	
+	@Test
+	public void testScanFunctionParameters()
+	{
+		Scanner scanner = new Scanner();
+		scanner.scan(new File(getClass().getResource("/test_files/function-parameters.php").getFile()));
+
+		com.k42b3.shu.definition.File file = scanner.getIndex().getFiles().get(0);
+		List<Definition> defs = file.getDefinitions();
+		
+		assertEquals("foo", ((com.k42b3.shu.definition.Function) defs.get(0)).getName());
+		assertEquals("$fooarg1", ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(0).getName());
+		assertEquals(null, ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(0).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(0).isRequired());
+		assertEquals("$fooarg2", ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(1).getName());
+		assertEquals("array", ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(1).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(1).isRequired());
+		assertEquals("$fooarg3", ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(2).getName());
+		assertEquals("Foo", ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(2).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(2).isRequired());
+		assertEquals("$fooarg4", ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(3).getName());
+		assertEquals("Bar\\Foo", ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(3).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(3).isRequired());
+		assertEquals("$fooarg5", ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(4).getName());
+		assertEquals("Bar\\Foo", ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(4).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(0)).getParameters().get(4).isRequired());
+		
+		assertEquals("bar", ((com.k42b3.shu.definition.Function) defs.get(1)).getName());
+		assertEquals("$bararg1", ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(0).getName());
+		assertEquals(null, ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(0).getTypeHint());
+		assertEquals(false, ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(0).isRequired());
+		assertEquals("$bararg2", ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(1).getName());
+		assertEquals("array", ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(1).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(1).isRequired());
+		assertEquals("$bararg3", ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(2).getName());
+		assertEquals("Foo", ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(2).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(2).isRequired());
+		assertEquals("$bararg4", ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(3).getName());
+		assertEquals("Bar\\Foo", ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(3).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(3).isRequired());
+		assertEquals("$bararg5", ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(4).getName());
+		assertEquals("Bar\\Foo", ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(4).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(1)).getParameters().get(4).isRequired());
+
+		assertEquals("rev", ((com.k42b3.shu.definition.Function) defs.get(2)).getName());
+		assertEquals("$revarg1", ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(0).getName());
+		assertEquals(null, ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(0).getTypeHint());
+		assertEquals(false, ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(0).isRequired());
+		assertEquals("$revarg2", ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(1).getName());
+		assertEquals("array", ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(1).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(1).isRequired());
+		assertEquals("$revarg3", ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(2).getName());
+		assertEquals("Foo", ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(2).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(2).isRequired());
+		assertEquals("$revarg4", ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(3).getName());
+		assertEquals("Bar\\Foo", ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(3).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(3).isRequired());
+		assertEquals("$revarg5", ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(4).getName());
+		assertEquals("Bar\\Foo", ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(4).getTypeHint());
+		assertEquals(true, ((com.k42b3.shu.definition.Function) defs.get(2)).getParameters().get(4).isRequired());
 	}
 }
 

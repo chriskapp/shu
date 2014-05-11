@@ -23,12 +23,23 @@
 package com.k42b3.shu.reference;
 
 /**
- * PostReference
+ * VariableReference
  *
  * @author  Christoph Kappestein <k42b3.x@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.html GPLv3
  * @link    https://github.com/k42b3/shu
  */
-public class PostReference extends Reference
+public class VariableReference extends Reference
 {
+	protected String name;
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 }

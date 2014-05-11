@@ -22,14 +22,20 @@
 
 package com.k42b3.shu.module;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -48,6 +54,10 @@ import com.k42b3.shu.definition.Method;
  */
 public class Definition extends ModuleAbstract
 {
+	protected DefinitionTableModel classTableModel;
+	protected DefinitionTableModel methodTableModel;
+	protected DefinitionTableModel functionTableModel;
+
 	public String getTitle()
 	{
 		return "Definition";
@@ -60,6 +70,53 @@ public class Definition extends ModuleAbstract
 	
 	public JComponent getComponent(Metric metric, Index index)
 	{
+		JTabbedPane tab = new JTabbedPane();
+		tab.addTab("Class", this.getClassPanel(index));
+		tab.addTab("Method", this.getMethodPanel(index));
+		tab.addTab("Function", this.getFunctionPanel(index));
+
+		return tab;
+	}
+	
+	protected DefaultTableModel getClassTableModel()
+	{
+		classTableModel = new DefinitionTableModel();
+		classTableModel.addColumn("Name");
+		classTableModel.addColumn("File");
+		classTableModel.addColumn("Line");
+		
+		return classTableModel;
+	}
+	
+	protected Component getClassPanel(Index index)
+	{
+		JPanel classPanel = new JPanel(new BorderLayout());
+		
+		JTextField classTextField = new JTextField();
+		classTextField.addKeyListener(new KeyListener() {
+			
+			public void keyTyped(KeyEvent e)
+			{
+			}
+			
+			public void keyReleased(KeyEvent e)
+			{
+				if(e.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					JTextField source = (JTextField) e.getSource();
+
+					classTableModel.filter(source.getText());
+				}
+			}
+			
+			public void keyPressed(KeyEvent e)
+			{
+			}
+			
+		});
+	
+		classPanel.add(classTextField, BorderLayout.NORTH);
+		
 		DefaultTableModel classTableModel = getClassTableModel();
 		JTable classTable = new JTable(classTableModel);
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(classTableModel);
@@ -86,24 +143,13 @@ public class Definition extends ModuleAbstract
 			{
 				if(e.getClickCount() == 2)
 				{
-					/*
-					int row = classTable.getSelectedRow();
-					if(row != -1)
-					{
-						java.io.File file = (java.io.File) classTable.getValueAt(row, 1);
-					}
-					*/
 				}
 			}
 
 		});
-
-		DefaultTableModel methodTableModel = getMethodTableModel();
-		JTable methodTable = new JTable(methodTableModel);
-
-		DefaultTableModel functionTableModel = getFunctionTableModel();
-		JTable functionTable = new JTable(functionTableModel);
-
+		
+		classPanel.add(new JScrollPane(classTable), BorderLayout.CENTER);
+		
 		// load
 		ArrayList<com.k42b3.shu.definition.Class> classes = index.getClasses();
 		for(int i = 0; i < classes.size(); i++)
@@ -111,12 +157,57 @@ public class Definition extends ModuleAbstract
 			Object[] row = {
 				classes.get(i).getName(),
 				classes.get(i).getFile(),
-				classes.get(i).getLine(),
-				index.findReferencesByClass(classes.get(i)).size()
+				classes.get(i).getLine()
 			};
 
 			classTableModel.addRow(row);
 		}
+
+		return classPanel;
+	}
+	
+	protected DefaultTableModel getMethodTableModel()
+	{
+		methodTableModel = new DefinitionTableModel();
+		methodTableModel.addColumn("Name");
+		methodTableModel.addColumn("Class");
+		methodTableModel.addColumn("File");
+		methodTableModel.addColumn("Line");
+		
+		return methodTableModel;
+	}
+	
+	protected Component getMethodPanel(Index index)
+	{
+		JPanel methodPanel = new JPanel(new BorderLayout());
+		
+		JTextField methodTextField = new JTextField();
+		methodTextField.addKeyListener(new KeyListener() {
+			
+			public void keyTyped(KeyEvent e)
+			{
+			}
+			
+			public void keyReleased(KeyEvent e)
+			{
+				if(e.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					JTextField source = (JTextField) e.getSource();
+
+					methodTableModel.filter(source.getText());
+				}
+			}
+			
+			public void keyPressed(KeyEvent e)
+			{
+			}
+			
+		});
+	
+		methodPanel.add(methodTextField, BorderLayout.NORTH);
+		
+		DefaultTableModel methodTableModel = getMethodTableModel();
+		JTable methodTable = new JTable(methodTableModel);
 		
 		ArrayList<Method> methods = index.getMethods();
 		for(int i = 0; i < methods.size(); i++)
@@ -131,6 +222,53 @@ public class Definition extends ModuleAbstract
 			methodTableModel.addRow(row);
 		}
 		
+		methodPanel.add(new JScrollPane(methodTable), BorderLayout.CENTER);
+		
+		return methodPanel;
+	}
+	
+	protected DefaultTableModel getFunctionTableModel()
+	{
+		functionTableModel = new DefinitionTableModel();
+		functionTableModel.addColumn("Name");
+		functionTableModel.addColumn("File");
+		functionTableModel.addColumn("Line");
+		
+		return functionTableModel;
+	}
+	
+	protected Component getFunctionPanel(Index index)
+	{
+		JPanel functionPanel = new JPanel(new BorderLayout());
+		
+		JTextField methodTextField = new JTextField();
+		methodTextField.addKeyListener(new KeyListener() {
+			
+			public void keyTyped(KeyEvent e)
+			{
+			}
+			
+			public void keyReleased(KeyEvent e)
+			{
+				if(e.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					JTextField source = (JTextField) e.getSource();
+
+					functionTableModel.filter(source.getText());
+				}
+			}
+			
+			public void keyPressed(KeyEvent e)
+			{
+			}
+			
+		});
+	
+		functionPanel.add(methodTextField, BorderLayout.NORTH);
+
+		DefaultTableModel functionTableModel = getFunctionTableModel();
+		JTable functionTable = new JTable(functionTableModel);
+
 		ArrayList<Function> functions = index.getFunctions();
 		for(int i = 0; i < functions.size(); i++)
 		{
@@ -142,67 +280,67 @@ public class Definition extends ModuleAbstract
 
 			functionTableModel.addRow(row);
 		}
-
-		// panel
-		JTabbedPane tab = new JTabbedPane();
-		tab.addTab("Class", new JScrollPane(classTable));
-		tab.addTab("Method", new JScrollPane(methodTable));
-		tab.addTab("Function", new JScrollPane(functionTable));
 		
-		return tab;
+		functionPanel.add(new JScrollPane(functionTable), BorderLayout.CENTER);
+		
+		return functionPanel;
 	}
 	
-	protected DefaultTableModel getClassTableModel()
+	class DefinitionTableModel extends DefaultTableModel
 	{
-		DefaultTableModel classTableModel = new DefaultTableModel(){
+		protected ArrayList<Integer> exclude;
+		
+		public void filter(String filter)
+		{
+			this.exclude = new ArrayList<Integer>();
 
-			public Class getColumnClass(int col)
+			if(filter != null && !filter.isEmpty())
 			{
-				switch(col)
+				for(int i = 0; i < super.getRowCount(); i++)
 				{
-					case 0:
-						return String.class;
-					case 1:
-						return File.class;
-					case 2:
-					case 3:
-						return Integer.class;
+					Object value = super.getValueAt(i, 0);
+
+					if(value != null)
+					{
+						if(!value.toString().toLowerCase().matches("(.*)" + filter.toLowerCase() + "(.*)"))
+						{
+							this.exclude.add(i);
+						}
+					}
 				}
-				return null;
 			}
 
-			public boolean isCellEditable(int row, int col)
+			this.fireTableDataChanged();
+		}
+
+		public int getRowCount()
+		{
+			if(this.exclude != null)
 			{
-				return false;
+				return super.getRowCount() - this.exclude.size();
+			}
+			else
+			{
+				return super.getRowCount();
+			}
+		}
+
+		public Object getValueAt(int row, int column)
+		{
+			if(this.exclude != null)
+			{
+				while(this.exclude.contains(row))
+				{
+					row++;
+				}
 			}
 
-		};
-		classTableModel.addColumn("Name");
-		classTableModel.addColumn("File");
-		classTableModel.addColumn("Line");
-		classTableModel.addColumn("References");
-		
-		return classTableModel;
-	}
-	
-	private DefaultTableModel getMethodTableModel()
-	{
-		DefaultTableModel methodTableModel = new DefaultTableModel();
-		methodTableModel.addColumn("Name");
-		methodTableModel.addColumn("Class");
-		methodTableModel.addColumn("File");
-		methodTableModel.addColumn("Line");
-		
-		return methodTableModel;
-	}
-	
-	private DefaultTableModel getFunctionTableModel()
-	{
-		DefaultTableModel functionTableModel = new DefaultTableModel();
-		functionTableModel.addColumn("Name");
-		functionTableModel.addColumn("File");
-		functionTableModel.addColumn("Line");
-		
-		return functionTableModel;
+			return super.getValueAt(row, column);
+		}
+
+		public boolean isCellEditable(int row, int col)
+		{
+			return false;
+		}
 	}
 }
