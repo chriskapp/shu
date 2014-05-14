@@ -1,8 +1,8 @@
 /**
  * shu
- * An application wich parses an PHP project and extracts all class, method and 
- * function definitions. Based on the definition it can build various charts
- * and tables to given an overview of the project
+ * An application wich parses an PHP project and extracts all class and function 
+ * definitions. Based on the definition it can build various charts and tables 
+ * to give an overview of the code quality
  * 
  * Copyright (c) 2013-2014 Christoph Kappestein <k42b3.x@gmail.com>
  * 
@@ -42,7 +42,6 @@ import javax.swing.table.TableRowSorter;
 import com.k42b3.shu.Index;
 import com.k42b3.shu.Metric;
 import com.k42b3.shu.definition.Function;
-import com.k42b3.shu.definition.Method;
 
 /**
  * Definition
