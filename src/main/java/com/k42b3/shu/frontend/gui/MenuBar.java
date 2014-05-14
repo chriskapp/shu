@@ -20,7 +20,7 @@
  * along with shu. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.k42b3.shu;
+package com.k42b3.shu.frontend.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +31,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+
+import com.k42b3.shu.Shu;
 
 /**
  * MenuBar

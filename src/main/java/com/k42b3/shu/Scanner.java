@@ -26,6 +26,7 @@ import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import com.k42b3.shu.definition.Definition;
 import com.k42b3.shu.definition.Function;
@@ -79,9 +80,20 @@ public class Scanner
 
 	public void scan(File dir)
 	{
-		index.setDir(dir);
+		try
+		{
+			this.index.setDir(dir);
 
-		this.parse(dir);
+			this.processor.start();
+
+			this.parse(dir);
+			
+			this.processor.close();
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Information", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	public Metric getMetrics()
@@ -150,7 +162,13 @@ public class Scanner
 
 	protected void handleDefinition(Definition definition)
 	{
-		if(definition instanceof com.k42b3.shu.definition.Class)
+		if(definition instanceof Interface)
+		{
+			metric.increaseInterfaceCount();
+
+			index.addClass((Interface) definition);
+		}
+		else if(definition instanceof com.k42b3.shu.definition.Class)
 		{
 			metric.increaseClassCount();
 			
@@ -167,12 +185,6 @@ public class Scanner
 			metric.increaseFunctionCount();
 			
 			index.addFunction((Function) definition);
-		}
-		else if(definition instanceof Interface)
-		{
-			metric.increaseInterfaceCount();
-			
-			index.addClass((Interface) definition);
 		}
 		else if(definition instanceof Method)
 		{

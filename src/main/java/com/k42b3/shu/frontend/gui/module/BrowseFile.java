@@ -20,7 +20,7 @@
  * along with shu. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.k42b3.shu.module;
+package com.k42b3.shu.frontend.gui.module;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

@@ -20,7 +20,7 @@
  * along with shu. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.k42b3.shu.module;
+package com.k42b3.shu.frontend.gui.module;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -35,9 +35,11 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.google.gson.Gson;
+import com.k42b3.shu.Export;
 import com.k42b3.shu.Index;
 import com.k42b3.shu.Metric;
 import com.k42b3.shu.definition.Function;
@@ -82,58 +84,27 @@ public class DefinitionExport extends ModuleAbstract
 	protected void export(Index index)
 	{
 		final JFileChooser fc = new JFileChooser();
-		
+		fc.setSelectedFile(new File("definition.json"));
+
 		int returnVal = fc.showSaveDialog(this);
 		
 		if(returnVal == JFileChooser.APPROVE_OPTION)
 		{
-			Gson gson = new Gson();
 			File file = fc.getSelectedFile();
-
-			String result = gson.toJson(new Export(index.getClasses(), index.getFunctions()));
-
+			String result = Export.toJson(index.getClasses(), index.getFunctions());
+			
 			try
 			{
 				BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 				writer.write(result);
 				writer.close();
+
+				JOptionPane.showMessageDialog(null, "Export successful", "Information", JOptionPane.INFORMATION_MESSAGE);
 			}
 			catch(IOException e)
 			{
 				e.printStackTrace();
 			}
-		}
-	}
-	
-	class Export
-	{
-		protected ArrayList<com.k42b3.shu.definition.Class> classes;
-		protected ArrayList<Function> functions;
-		
-		public Export(ArrayList<com.k42b3.shu.definition.Class> classes, ArrayList<Function> functions)
-		{
-			this.classes = classes;
-			this.functions = functions;
-		}
-
-		public ArrayList<com.k42b3.shu.definition.Class> getClasses()
-		{
-			return classes;
-		}
-
-		public void setClasses(ArrayList<com.k42b3.shu.definition.Class> classes)
-		{
-			this.classes = classes;
-		}
-
-		public ArrayList<Function> getFunctions()
-		{
-			return functions;
-		}
-
-		public void setFunctions(ArrayList<Function> functions)
-		{
-			this.functions = functions;
 		}
 	}
 }

@@ -36,6 +36,7 @@ public class Class extends Definition
 	protected String name;
 	protected Class parent;
 	protected ArrayList<Interface> interfaces;
+	protected ArrayList<Method> methods = new ArrayList<Method>();
 
 	public String getName()
 	{
@@ -65,5 +66,20 @@ public class Class extends Definition
 	public void setInterfaces(ArrayList<Interface> interfaces)
 	{
 		this.interfaces = interfaces;
+	}
+
+	public ArrayList<Method> getMethods()
+	{
+		return methods;
+	}
+
+	public void setMethods(ArrayList<Method> methods)
+	{
+		this.methods = methods;
+	}
+	
+	public void addMethod(Method method)
+	{
+		this.methods.add(method);
 	}
 }

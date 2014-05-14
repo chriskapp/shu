@@ -6,7 +6,9 @@ public interface Processor
 {
 	public void setListener(DefinitionListener listener);
 
-	public void initialize();
+	public void start() throws Exception;
+
+	public void close() throws Exception;
 
 	public void process(File file);
 }

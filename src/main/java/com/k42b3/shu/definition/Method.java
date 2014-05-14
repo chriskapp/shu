@@ -34,6 +34,7 @@ public class Method extends Definition
 	protected String name;
 	protected Class parent;
 	protected Parameters parameters;
+	protected int modifier;
 	
 	public String getName()
 	{
@@ -63,5 +64,15 @@ public class Method extends Definition
 	public void setParameters(Parameters parameters)
 	{
 		this.parameters = parameters;
+	}
+
+	public int getModifier()
+	{
+		return modifier;
+	}
+
+	public void setModifier(int modifier)
+	{
+		this.modifier = modifier;
 	}
 }

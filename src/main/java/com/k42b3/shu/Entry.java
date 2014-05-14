@@ -22,7 +22,9 @@
 
 package com.k42b3.shu;
 
-import javax.swing.SwingUtilities;
+import java.awt.GraphicsEnvironment;
+import java.util.ArrayList;
+
 import javax.swing.UIManager;
 
 /**
@@ -36,17 +38,34 @@ public class Entry
 {
 	public static void main(String[] args) throws Exception
 	{
-		String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-		UIManager.setLookAndFeel(lookAndFeel);
-
-		SwingUtilities.invokeLater(new Runnable(){
-
-			public void run()
+		ArrayList<String> params = new ArrayList<String>();
+		for(int i = 0; i < args.length; i++)
+		{
+			if(!args[i].equals("--console"))
 			{
-				Shu instance = new Shu();
-				instance.setVisible(true);
+				params.add(args[i]);
 			}
+		}
 
-		});
+		boolean consoleForced = params.size() != args.length;
+		args = params.toArray(new String[params.size()]);
+
+		FrontendInterface main;
+
+		if(consoleForced || GraphicsEnvironment.isHeadless())
+		{
+			main = new com.k42b3.shu.frontend.console.Main();
+		}
+		else
+		{
+			String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+			UIManager.setLookAndFeel(lookAndFeel);
+
+			main = new com.k42b3.shu.frontend.gui.Main();
+		}
+
+		Scanner scanner = new Scanner();
+
+		main.handle(scanner, args);
 	}
 }

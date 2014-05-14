@@ -20,7 +20,7 @@
  * along with shu. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.k42b3.shu.module;
+package com.k42b3.shu.frontend.gui.module;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -41,7 +41,6 @@ import javax.swing.table.TableRowSorter;
 
 import com.k42b3.shu.Index;
 import com.k42b3.shu.Metric;
-import com.k42b3.shu.definition.File;
 import com.k42b3.shu.definition.Function;
 import com.k42b3.shu.definition.Method;
 
@@ -55,7 +54,6 @@ import com.k42b3.shu.definition.Method;
 public class Definition extends ModuleAbstract
 {
 	protected DefinitionTableModel classTableModel;
-	protected DefinitionTableModel methodTableModel;
 	protected DefinitionTableModel functionTableModel;
 
 	public String getTitle()
@@ -65,14 +63,13 @@ public class Definition extends ModuleAbstract
 
 	public String getDescription()
 	{
-		return "Displays all scanned classes, methods and functions";
+		return "Displays all scanned classes and functions";
 	}
 	
 	public JComponent getComponent(Metric metric, Index index)
 	{
 		JTabbedPane tab = new JTabbedPane();
 		tab.addTab("Class", this.getClassPanel(index));
-		tab.addTab("Method", this.getMethodPanel(index));
 		tab.addTab("Function", this.getFunctionPanel(index));
 
 		return tab;
@@ -165,68 +162,7 @@ public class Definition extends ModuleAbstract
 
 		return classPanel;
 	}
-	
-	protected DefaultTableModel getMethodTableModel()
-	{
-		methodTableModel = new DefinitionTableModel();
-		methodTableModel.addColumn("Name");
-		methodTableModel.addColumn("Class");
-		methodTableModel.addColumn("File");
-		methodTableModel.addColumn("Line");
-		
-		return methodTableModel;
-	}
-	
-	protected Component getMethodPanel(Index index)
-	{
-		JPanel methodPanel = new JPanel(new BorderLayout());
-		
-		JTextField methodTextField = new JTextField();
-		methodTextField.addKeyListener(new KeyListener() {
-			
-			public void keyTyped(KeyEvent e)
-			{
-			}
-			
-			public void keyReleased(KeyEvent e)
-			{
-				if(e.getKeyCode() == KeyEvent.VK_ENTER)
-				{
-					JTextField source = (JTextField) e.getSource();
 
-					methodTableModel.filter(source.getText());
-				}
-			}
-			
-			public void keyPressed(KeyEvent e)
-			{
-			}
-			
-		});
-	
-		methodPanel.add(methodTextField, BorderLayout.NORTH);
-		
-		DefaultTableModel methodTableModel = getMethodTableModel();
-		JTable methodTable = new JTable(methodTableModel);
-		
-		ArrayList<Method> methods = index.getMethods();
-		for(int i = 0; i < methods.size(); i++)
-		{
-			Object[] row = {
-				methods.get(i).getName(),
-				methods.get(i).getParent().getName(),
-				methods.get(i).getFile(),
-				methods.get(i).getLine()
-			};
-
-			methodTableModel.addRow(row);
-		}
-		
-		methodPanel.add(new JScrollPane(methodTable), BorderLayout.CENTER);
-		
-		return methodPanel;
-	}
-	
 	protected DefaultTableModel getFunctionTableModel()
 	{
 		functionTableModel = new DefinitionTableModel();

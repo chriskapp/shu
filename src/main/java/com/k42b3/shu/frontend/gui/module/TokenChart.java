@@ -20,7 +20,7 @@
  * along with shu. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.k42b3.shu.module;
+package com.k42b3.shu.frontend.gui.module;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -45,53 +45,54 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import com.k42b3.shu.Index;
 import com.k42b3.shu.Metric;
+import com.k42b3.shu.definition.File;
 
 /**
- * ComplexityChart
+ * TokenChart
  *
  * @author  Christoph Kappestein <k42b3.x@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.html GPLv3
  * @link    https://github.com/k42b3/shu
  */
-public class ComplexityChart extends ModuleAbstract
+public class TokenChart extends ModuleAbstract
 {
 	public String getTitle()
 	{
-		return "Complexity Chart";
+		return "Token Chart";
 	}
 
 	public String getDescription()
 	{
-		return "Shows how many methods exist in each class";
+		return "Shows how many tokens exists in each file";
 	}
 	
 	public JComponent getComponent(Metric metric, Index index)
 	{
 		JPanel panel = new JPanel(new BorderLayout());
-
+		
 		XYSeries series = new XYSeries("");
-		List<com.k42b3.shu.definition.Class> classes = index.getClasses();
+		List<com.k42b3.shu.definition.File> files = index.getFiles();
 		ArrayList<Entry> entries = new ArrayList<Entry>();
-
-		for(int i = 0; i < classes.size(); i++)
+		
+		for(int i = 0; i < files.size(); i++)
 		{
-			int count = index.findMethodsByClass(classes.get(i)).size();
+			int count = files.get(i).getTokenCount();
 			
 			series.add(i, count);
-			entries.add(new Entry(classes.get(i), count));
+			entries.add(new Entry(files.get(i), count));
 		}
 
 		// top entries
 		Collections.sort(entries, new EntryComperator());
 		
 		DefaultTableModel model = new DefaultTableModel();
-		model.addColumn("Class");
+		model.addColumn("File");
 		model.addColumn("Count");
 
 		for(int i = 0; i < entries.size(); i++)
 		{
 			String[] row = {
-				entries.get(i).getClassDefinition().getName(),
+				entries.get(i).getFile().getFile().getName(),
 				"" + entries.get(i).getCount()
 			};
 
@@ -126,20 +127,20 @@ public class ComplexityChart extends ModuleAbstract
 	
 	private class Entry implements Comparable
 	{
-		protected com.k42b3.shu.definition.Class classDefinition;
+		protected File file;
 		protected int count;
 
-		public Entry(com.k42b3.shu.definition.Class classDefinition, int count)
+		public Entry(File file, int count)
 		{
 			super();
 
-			this.classDefinition = classDefinition;
+			this.file = file;
 			this.count = count;
 		}
 
-		public com.k42b3.shu.definition.Class getClassDefinition()
+		public File getFile()
 		{
-			return classDefinition;
+			return file;
 		}
 
 		public int getCount()

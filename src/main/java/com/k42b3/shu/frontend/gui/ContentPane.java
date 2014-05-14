@@ -20,7 +20,7 @@
  * along with shu. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.k42b3.shu;
+package com.k42b3.shu.frontend.gui;
 
 import javax.swing.JTabbedPane;
 

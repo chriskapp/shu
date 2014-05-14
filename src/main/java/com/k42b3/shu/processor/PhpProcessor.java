@@ -1,9 +1,11 @@
 package com.k42b3.shu.processor;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,13 +32,32 @@ import com.k42b3.shu.reference.VariableReference;
 
 public class PhpProcessor extends ProcessorAbstract
 {
-	public void initialize()
+	protected Process proccess;
+	protected BufferedWriter bufferedWriter;
+	protected BufferedReader bufferedReader;
+
+	public void start() throws Exception
 	{
 		if(!this.isPhpProcessorAvailable())
 		{
-			JOptionPane.showMessageDialog(null, "No PHP processor was found", "Information", JOptionPane.INFORMATION_MESSAGE);
-			return;
+			throw new RuntimeException("No PHP processor was found");
 		}
+
+		String phpCode = "";
+		phpCode+= "while (false !== ($line = fgets(STDIN))) {";
+		phpCode+= " echo json_encode(token_get_all(file_get_contents(trim($line)))) . PHP_EOL;";
+		phpCode+= "}";
+
+		proccess = Runtime.getRuntime().exec("php -r \"" + phpCode + "\"");
+		bufferedWriter = new BufferedWriter(new OutputStreamWriter(proccess.getOutputStream()));
+		bufferedReader = new BufferedReader(new InputStreamReader(proccess.getInputStream()));
+	}
+
+	public void close() throws Exception
+	{
+		bufferedWriter.close();
+		bufferedReader.close();
+		proccess.destroy();
 	}
 
 	public void process(File file)
@@ -276,11 +297,13 @@ public class PhpProcessor extends ProcessorAbstract
 					m.setFile(file);
 					m.setLine(line);
 					m.setName(name);
-					m.setParent(mainClass);
+					//m.setParent(mainClass);
 					m.setParameters(params);
 
 					fileDefinition.addDefinition(m);
 
+					mainClass.addMethod(m);
+					
 					this.listener.onDefinition(m);
 				}
 				else
@@ -706,6 +729,7 @@ public class PhpProcessor extends ProcessorAbstract
 			// variable
 			else if(tokens[i].getType() == Token.T_VARIABLE)
 			{
+				/*
 				VariableReference r = new VariableReference();
 				r.setName(tokens[i].getValue());
 				r.setFile(file);
@@ -719,6 +743,7 @@ public class PhpProcessor extends ProcessorAbstract
 				fileDefinition.addDefinition(r);
 
 				this.listener.onDefinition(r);
+				*/
 			}
 			// increae decrease level
 			else if(tokens[i].getType() == -1 && tokens[i].getValue().equals("{"))
@@ -747,21 +772,15 @@ public class PhpProcessor extends ProcessorAbstract
 	{
 		try
 		{
-			String line;
-			StringBuilder response = new StringBuilder();
 			Gson gson = new Gson();
 
-			Process p = Runtime.getRuntime().exec("php -r \"echo json_encode(token_get_all(file_get_contents('" + file.getAbsolutePath() + "')));\"");
-			BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			while((line = input.readLine()) != null) 
-			{
-				response.append(line + "\n");
-			}
-			input.close();
+			bufferedWriter.write(file.getAbsolutePath() + "\n");
+			bufferedWriter.flush();
+
+			String response = bufferedReader.readLine();
 
 			Type collectionType = new TypeToken<Collection<Object>>(){}.getType();
-			Collection<Object> result = gson.fromJson(response.toString(), collectionType);
-
+			Collection<Object> result = gson.fromJson(response, collectionType);
 			
 			// convert to tokens
 			Object[] rawTokens = result.toArray();
