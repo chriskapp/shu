@@ -143,21 +143,6 @@ public class Index
 		return refs;
 	}
 
-	public ArrayList<Method> findMethodsByClass(com.k42b3.shu.definition.Class c)
-	{
-		ArrayList<Method> methods = new ArrayList<Method>();
-
-		for(int i = 0; i < this.methods.size(); i++)
-		{
-			if(this.methods.get(i).getParent().getName().equals(c.getName()))
-			{
-				methods.add(this.methods.get(i));
-			}
-		}
-		
-		return methods;
-	}
-
 	public void addFunction(Function f)
 	{
 		functions.add(f);

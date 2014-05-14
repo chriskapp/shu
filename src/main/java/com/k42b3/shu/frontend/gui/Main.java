@@ -75,6 +75,7 @@ public class Main extends JFrame implements FrontendInterface
 	protected JLabel footer;
 
 	protected Scanner scanner;
+	protected boolean loaded = false;
 
 	public Main()
 	{
@@ -111,7 +112,7 @@ public class Main extends JFrame implements FrontendInterface
 				JList<ModuleAbstract> list = (JList<ModuleAbstract>) e.getSource();
 				ModuleAbstract module = (ModuleAbstract) list.getSelectedValue();
 
-				if(module != null && scanner != null)
+				if(module != null && loaded)
 				{
 					boolean found = false;
 
@@ -197,6 +198,9 @@ public class Main extends JFrame implements FrontendInterface
 				// scan
 				ScanWorker worker = new ScanWorker(file);
 		        worker.execute();
+		        
+		        //
+		        loaded = true;
 			}
 		}
 	}

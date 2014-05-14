@@ -75,7 +75,7 @@ public class ComplexityChart extends ModuleAbstract
 
 		for(int i = 0; i < classes.size(); i++)
 		{
-			int count = index.findMethodsByClass(classes.get(i)).size();
+			int count = classes.get(i).getMethods().size();
 			
 			series.add(i, count);
 			entries.add(new Entry(classes.get(i), count));
