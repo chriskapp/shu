@@ -22,6 +22,8 @@
 
 package com.k42b3.shu.frontend.gui.frame;
 
+import javax.swing.JFrame;
+
 /**
  * FileFrame
  *
@@ -29,7 +31,7 @@ package com.k42b3.shu.frontend.gui.frame;
  * @license http://www.gnu.org/licenses/gpl.html GPLv3
  * @link    https://github.com/k42b3/shu
  */
-public class FileFrame
+public class FileFrame extends JFrame
 {
 
 }

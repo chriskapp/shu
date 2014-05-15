@@ -323,7 +323,6 @@ public class PhpProcessor extends ProcessorAbstract
 					m.setFile(file);
 					m.setLine(line);
 					m.setName(name);
-					//m.setParent(mainClass);
 					m.setParameters(params);
 
 					fileDefinition.addDefinition(m);

@@ -39,7 +39,6 @@ public class Metric
 	private int classCount = 0;
 	private int functionCount = 0;
 	private int interfaceCount = 0;
-	private int methodCount = 0;
 
 	private int getCount = 0;
 	private int postCount = 0;
@@ -112,16 +111,6 @@ public class Metric
 	public int getInterfaceCount()
 	{
 		return interfaceCount;
-	}
-	
-	public void increaseMethodCount()
-	{
-		methodCount++;
-	}
-
-	public int getMethodCount()
-	{
-		return methodCount;
 	}
 	
 	public void increaseGetCount()

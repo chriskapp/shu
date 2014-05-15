@@ -82,4 +82,14 @@ public class Class extends Definition
 	{
 		this.methods.add(method);
 	}
+	
+	public boolean equals(Object o)
+	{
+		if(o instanceof Class)
+		{
+			return name.equals(((Class) o).getName());
+		}
+
+		return false;
+	}
 }

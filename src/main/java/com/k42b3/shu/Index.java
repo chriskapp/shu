@@ -28,7 +28,6 @@ import java.util.List;
 import com.k42b3.shu.definition.Definition;
 import com.k42b3.shu.definition.File;
 import com.k42b3.shu.definition.Function;
-import com.k42b3.shu.definition.Method;
 import com.k42b3.shu.reference.ClassReference;
 import com.k42b3.shu.reference.ExtendReference;
 
@@ -45,7 +44,6 @@ public class Index
 	private ArrayList<File> files = new ArrayList<File>();
 	private ArrayList<com.k42b3.shu.definition.Class> classes = new ArrayList<com.k42b3.shu.definition.Class>();
 	private ArrayList<Function> functions = new ArrayList<Function>();
-	private ArrayList<Method> methods = new ArrayList<Method>();
 
 	public void setDir(java.io.File dir)
 	{
@@ -69,7 +67,10 @@ public class Index
 
 	public void addClass(com.k42b3.shu.definition.Class c)
 	{
-		classes.add(c);
+		if(!classes.contains(c))
+		{
+			classes.add(c);
+		}
 	}
 
 	public ArrayList<com.k42b3.shu.definition.Class> getClasses()
@@ -145,21 +146,14 @@ public class Index
 
 	public void addFunction(Function f)
 	{
-		functions.add(f);
+		if(!functions.contains(f))
+		{
+			functions.add(f);
+		}
 	}
 	
 	public ArrayList<Function> getFunctions()
 	{
 		return functions;
-	}
-	
-	public void addMethod(Method m)
-	{
-		methods.add(m);
-	}
-	
-	public ArrayList<Method> getMethods()
-	{
-		return methods;
 	}
 }

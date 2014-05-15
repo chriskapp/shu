@@ -32,7 +32,6 @@ package com.k42b3.shu.definition;
 public class Method extends Definition
 {
 	protected String name;
-	protected Class parent;
 	protected Parameters parameters;
 	protected int modifier;
 	
@@ -44,16 +43,6 @@ public class Method extends Definition
 	public void setName(String name)
 	{
 		this.name = name;
-	}
-	
-	public Class getParent()
-	{
-		return parent;
-	}
-	
-	public void setParent(Class parent)
-	{
-		this.parent = parent;
 	}
 
 	public Parameters getParameters()

@@ -31,7 +31,6 @@ import javax.swing.JOptionPane;
 import com.k42b3.shu.definition.Definition;
 import com.k42b3.shu.definition.Function;
 import com.k42b3.shu.definition.Interface;
-import com.k42b3.shu.definition.Method;
 import com.k42b3.shu.processor.PhpProcessor;
 
 /**
@@ -122,7 +121,7 @@ public class Scanner
 				this.inspectFile(dir);
 			}
 		}
-		else if(dir.isDirectory())
+		else if(dir.isDirectory() && this.isValidDirName(dir.getName()))
 		{
 			File[] files = dir.listFiles();
 
@@ -160,6 +159,21 @@ public class Scanner
 		processor.process(file);
 	}
 
+	protected boolean isValidDirName(String name)
+	{
+		String[] reserved = {"tests"};
+
+		for(int i = 0; i < reserved.length; i++)
+		{
+			if(reserved[i].equals(name.toLowerCase()))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	protected void handleDefinition(Definition definition)
 	{
 		if(definition instanceof Interface)
@@ -185,12 +199,6 @@ public class Scanner
 			metric.increaseFunctionCount();
 			
 			index.addFunction((Function) definition);
-		}
-		else if(definition instanceof Method)
-		{
-			metric.increaseMethodCount();
-			
-			index.addMethod((Method) definition);
 		}
 	}
 

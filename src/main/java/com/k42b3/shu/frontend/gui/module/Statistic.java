@@ -70,8 +70,7 @@ public class Statistic extends ModuleAbstract
 			//{"Other files", metric.getNoTokenFiles()},
 			{"Class count", metric.getClassCount()},
 			{"Function count", metric.getFunctionCount()},
-			{"Interface count", metric.getInterfaceCount()},
-			{"Method count", metric.getMethodCount()},
+			{"Interface count", metric.getInterfaceCount()}
 		};
 
 		for(int i = 0; i < rows.length; i++)

@@ -29,6 +29,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -42,6 +43,7 @@ import javax.swing.table.TableRowSorter;
 import com.k42b3.shu.Index;
 import com.k42b3.shu.Metric;
 import com.k42b3.shu.definition.Function;
+import com.k42b3.shu.frontend.gui.frame.ClassFrame;
 
 /**
  * Definition
@@ -203,6 +205,34 @@ public class Definition extends ModuleAbstract
 
 		DefaultTableModel functionTableModel = getFunctionTableModel();
 		JTable functionTable = new JTable(functionTableModel);
+		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(functionTableModel);
+		functionTable.setRowSorter(sorter);
+		functionTable.addMouseListener(new MouseListener(){
+			
+			public void mouseReleased(MouseEvent e)
+			{
+			}
+			
+			public void mousePressed(MouseEvent e)
+			{
+			}
+			
+			public void mouseExited(MouseEvent e)
+			{
+			}
+			
+			public void mouseEntered(MouseEvent e)
+			{
+			}
+			
+			public void mouseClicked(MouseEvent e)
+			{
+				if(e.getClickCount() == 2)
+				{
+				}
+			}
+
+		});
 
 		ArrayList<Function> functions = index.getFunctions();
 		for(int i = 0; i < functions.size(); i++)
@@ -220,29 +250,33 @@ public class Definition extends ModuleAbstract
 		
 		return functionPanel;
 	}
-	
+
 	class DefinitionTableModel extends DefaultTableModel
 	{
-		protected ArrayList<Integer> exclude;
-		
+		private ArrayList<Integer> exclude;
+
 		public void filter(String filter)
 		{
-			this.exclude = new ArrayList<Integer>();
-
 			if(filter != null && !filter.isEmpty())
 			{
-				for(int i = 0; i < super.getRowCount(); i++)
+				int rowCount = super.getRowCount();
+				ArrayList<Integer> exclude = new ArrayList<Integer>();
+				
+				for(int i = 0; i < rowCount; i++)
 				{
 					Object value = super.getValueAt(i, 0);
 
-					if(value != null)
+					if(value != null && !value.toString().toLowerCase().matches("(.*)" + filter.toLowerCase() + "(.*)"))
 					{
-						if(!value.toString().toLowerCase().matches("(.*)" + filter.toLowerCase() + "(.*)"))
-						{
-							this.exclude.add(i);
-						}
+						exclude.add(i);
 					}
 				}
+				
+				this.exclude = exclude;
+			}
+			else
+			{
+				this.exclude = new ArrayList<Integer>();
 			}
 
 			this.fireTableDataChanged();
@@ -250,23 +284,19 @@ public class Definition extends ModuleAbstract
 
 		public int getRowCount()
 		{
-			if(this.exclude != null)
-			{
-				return super.getRowCount() - this.exclude.size();
-			}
-			else
-			{
-				return super.getRowCount();
-			}
+			return super.getRowCount() - (this.exclude != null ? this.exclude.size() : 0);
 		}
 
 		public Object getValueAt(int row, int column)
 		{
 			if(this.exclude != null)
 			{
-				while(this.exclude.contains(row))
+				for(int i = 0; i < exclude.size(); i++)
 				{
-					row++;
+					if(exclude.get(i) <= row)
+					{
+						row++;
+					}
 				}
 			}
 

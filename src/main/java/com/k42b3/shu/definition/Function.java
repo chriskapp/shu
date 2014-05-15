@@ -53,4 +53,14 @@ public class Function extends Definition
 	{
 		this.parameters = parameters;
 	}
+	
+	public boolean equals(Object o)
+	{
+		if(o instanceof Function)
+		{
+			return name.equals(((Function) o).getName());
+		}
+
+		return false;
+	}
 }
